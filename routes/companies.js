@@ -38,4 +38,30 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
+router.patch('/:code', async (req, res, next) => {
+	try {
+		const { code } = req.params;
+		const { name, description } = req.body;
+		const results = await db.query(`UPDATE companies SET name=$1, description=$2 WHERE code=$3 RETURNING *;`, [
+			name,
+			description,
+			code
+		]);
+		return res.json({ company: results.rows[0] });
+	} catch (err) {
+		next(err);
+	}
+});
+
+router.delete('/:code', async (req, res, next) => {
+	try {
+		const { code } = req.params;
+		const results = await db.query(`DELETE FROM companies WHERE code = $1;`, [ code ]);
+		console.log(results.rows);
+		return res.json({ msg: 'DELETED!' });
+	} catch (err) {
+		return next(err);
+	}
+});
+
 module.exports = router;
