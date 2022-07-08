@@ -53,4 +53,15 @@ router.patch('/:id', async (req, res, next) => {
 	}
 });
 
+/** delete a single invoice */
+router.delete('/:id', async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const results = await db.query(`DELETE FROM invoices WHERE id=$1;`, [ id ]);
+		return res.json({ msg: 'DELETED' });
+	} catch (err) {
+		return next(err);
+	}
+});
+
 module.exports = router;
