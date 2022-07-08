@@ -38,4 +38,19 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
+/** edit a single invoice */
+router.patch('/:id', async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const { comp_code, amt, paid, add_date, paid_date } = req.body;
+		const results = await db.query(
+			`UPDATE invoices SET comp_code=$1, amt=$2, paid=$3, add_date=$4, paid_date=$5 WHERE id=$6 RETURNING *`,
+			[ comp_code, amt, paid, add_date, paid_date, id ]
+		);
+		return res.json({ invoice: results.rows[0] });
+	} catch (err) {
+		return next(err);
+	}
+});
+
 module.exports = router;
