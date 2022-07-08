@@ -24,6 +24,7 @@ router.get('/:code', async (req, res, next) => {
 	}
 });
 
+/** post a single new company */
 router.post('/', async (req, res, next) => {
 	try {
 		const { code, name, description } = req.body;
@@ -38,6 +39,7 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
+/** edit a single company */
 router.patch('/:code', async (req, res, next) => {
 	try {
 		const { code } = req.params;
@@ -53,6 +55,7 @@ router.patch('/:code', async (req, res, next) => {
 	}
 });
 
+/** delete a single company */
 router.delete('/:code', async (req, res, next) => {
 	try {
 		const { code } = req.params;
